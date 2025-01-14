@@ -1,14 +1,17 @@
 import { Hono } from 'hono';
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate';
-import { decode, sign, verify } from 'hono/jwt'
+import { sign} from 'hono/jwt'
 //import encrypt from '../misc/middleware';
 // Create the main Hono userRouter
 export const userRouter = new Hono<{
   Bindings:{
     DATABASE_URL:string,
     JWT_SECRET:string
-  }
+  },
+    Variables: {
+        userId: Number
+    }
 }>(); 
 userRouter.post('/signup', async (c) => {
     const prisma = new PrismaClient({
